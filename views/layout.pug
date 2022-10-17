@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title Your inventory app
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    header
+      div.px-3.py-2.bg-dark
+        div.container
+          div.d-flex.flex-wrap.align-items-center.justify-content-center.justify-content-lg-start
+            a.d-flex.align-items-center.my-2.my-lg-0.me-lg-auto.text-white.text-decoration-none(href='/') Home
+            ul.nav.col-12.col-lg-auto.my-2.justify-content-center.my-md-0.text-small
+              li.nav-link.text-white(href='/' width='40' height='32') Home
+                svg.bi.d-block.mx-auto.mb-1(path='./images/home.svg')
+              li.nav-link.text-white(href='/' width='40' height='32') Products
+                svg.bi.d-block.mx-auto.mb-1(path='./images/products.svg')
+              li.nav-link.text-white(href='/' width='40' height='32') Categories
+                svg.bi.d-block.mx-auto.mb-1(path='./images/categories.svg')
+              li.nav-link.text-white(href='/' width='40' height='32') Brands
+                svg.bi.d-block.mx-auto.mb-1(path='./images/brands.svg')
+          
+    block content
+
