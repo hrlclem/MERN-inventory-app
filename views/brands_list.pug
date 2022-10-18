@@ -1,0 +1,13 @@
+extends layout
+
+block content 
+    h1= title 
+
+    ul 
+        each brand in brand_list 
+            li 
+                a(href=brand.url) #{brand.name}
+
+        else 
+            li There is no brand yet, add it by 
+            a(href="/brands/add") clicking here

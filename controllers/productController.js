@@ -1,3 +1,8 @@
+const { body, validationResult } = require("express-validator");
+const validator = require("express-validator");
+// const body = validator.body;
+// const validationResult = validator.validationResult;
+
 exports.product_list = (req,res) =>{
     res.send("NOT IMPLMENTED: product list")
 }

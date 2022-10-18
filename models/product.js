@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
@@ -32,7 +34,7 @@ const ProductSchema = new Schema({
 });
 
 ProductSchema.virtual("url").get(function () {
-    return "/category/product/" + this._id;
+    return "/category/products/" + this._id;
   });
 
-module.exports = mongoose.model("product", ProductSchema);
+module.exports = mongoose.model("Product", ProductSchema);

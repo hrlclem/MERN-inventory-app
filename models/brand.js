@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const BrandSchema = new Schema({
@@ -12,12 +14,11 @@ const BrandSchema = new Schema({
     }],
   imageURL: { 
     type: String, 
-    required: true 
     },
 });
 
 BrandSchema.virtual("url").get(function () {
-    return "/brand/" + this._id;
+    return "/brands/" + this._id;
   });
 
-module.exports = mongoose.model("category", BrandSchema);
+module.exports = mongoose.model("Brand", BrandSchema);

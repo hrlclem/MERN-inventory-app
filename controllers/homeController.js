@@ -1,3 +1,3 @@
 exports.index = (req,res) =>{
-    res.send("NOT IMPLMENTED: Homepage")
+    res.render("index", { title: "Your inventory app" });
 }
