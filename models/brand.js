@@ -12,13 +12,13 @@ const BrandSchema = new Schema({
     type: Schema.Types.ObjectId, 
     ref:"products"
     }],
-  imageURL: { 
-    type: String, 
-    },
+  // imageURL: { 
+  //   type: String, 
+  //   },
 });
 
 BrandSchema.virtual("url").get(function () {
-    return "/brands/" + this._id;
+    return "/inventory/brands/" + this._id;
   });
 
 module.exports = mongoose.model("Brand", BrandSchema);

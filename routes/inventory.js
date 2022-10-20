@@ -30,13 +30,13 @@ router.post("/categories/:id/update", category_controller.category_update_post);
 router.get("/categories/:id", category_controller.category_detail);
 
 /// BRAND ROUTES ///
-router.get("/brands", brand_controller.brands_list);
-router.get("/brands/add", brand_controller.brands_add_get);
-router.post("/brands/add", brand_controller.brands_add_post);
-router.get("/brands/:id/delete", brand_controller.brands_delete_get);
-router.post("/brands/:id/delete", brand_controller.brands_delete_post);
-router.get("/brands/:id/update", brand_controller.brands_update_get);
-router.post("/brands/:id/update", brand_controller.brands_update_post);
-router.get("/brands/:id", brand_controller.brands_detail);
+router.get("/brands", brand_controller.brand_list);
+router.get("/brands/add", brand_controller.brand_add_get);
+router.post("/brands/add", brand_controller.brand_add_post);
+router.get("/brands/:id/delete", brand_controller.brand_delete_get);
+router.post("/brands/:id/delete", brand_controller.brand_delete_post);
+router.get("/brands/:id/update", brand_controller.brand_update_get);
+router.post("/brands/:id/update", brand_controller.brand_update_post);
+router.get("/brands/:id", brand_controller.brand_detail);
 
 module.exports = router;

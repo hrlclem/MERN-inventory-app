@@ -27,10 +27,10 @@ const ProductSchema = new Schema({
     type: Schema.Types.ObjectId, 
     ref: "brand"
     },    
-  imageURL: { 
-    type: String, 
-    required: true 
-    },
+  // imageURL: { 
+  //   type: String, 
+  //   required: true 
+  //   },
 });
 
 ProductSchema.virtual("url").get(function () {

@@ -15,14 +15,18 @@ html
           div.d-flex.flex-wrap.align-items-center.justify-content-center.justify-content-lg-start
             a.d-flex.align-items-center.my-lg-0.me-lg-auto.text-white.text-decoration-none(href='/') Home
             ul.nav.col-lg-auto.justify-content-center.my-md-0.text-small
-              li.nav-link.text-white(href='/' width='10' height='10') Home
-                svg.bi.d-block(path='./images/home.svg' width='10' height='10')
-              li.nav-link.text-white(href='/' width='10' height='10') Products
-                svg.bi.d-block(path='./images/products.svg' width='10' height='10')
-              li.nav-link.text-white(href='/' width='10' height='10') Categories
-                svg.bi.d-block(path='./images/categories.svg' width='10' height='10')
-              li.nav-link.text-white(href='/' width='10' height='10') Brands
-                svg.bi.d-block(path='./images/brands.svg' width='10' height='10')
+              li.nav-link.text-white
+                a(href='/') Home
+                img.bi.d-block(path='/public/images/home.svg' width='30' height='30')
+              li.nav-link.text-white
+                a(href='/inventory/products/') Products
+                img.bi.d-block(path='/public/images/products.svg' width='30' height='30')
+              li.nav-link.text-white
+                a(href='/inventory/categories/') Categories
+                img.bi.d-block(path='../public/images/categories.svg' width='30' height='30')
+              li.nav-link.text-white
+                a(href='/inventory/brands/') Brands
+                img.bi.d-block(path='../public/images/brands.svg' width='30' height='30')
           
     block content
 

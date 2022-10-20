@@ -12,10 +12,10 @@ const CategorySchema = new Schema({
     type: Schema.Types.ObjectId, 
     ref:"products"
     }],
-  imageURL: { 
-    type: String, 
-    required: true 
-    },
+  // imageURL: { 
+  //   type: String, 
+  //   required: true 
+  //   },
 });
 
 CategorySchema.virtual("url").get(function () {
