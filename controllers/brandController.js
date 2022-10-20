@@ -95,14 +95,13 @@ exports.brand_detail = (req,res) =>{
             },
             brand_product(callback){
                 // Search products with specific brand ID
-                Product.find({ brand: req.params.id }).exec(callback)
+                Product.find({ brand: req.params.id }).populate('name').exec(callback)
             }
         },
         (err, results) => {
             if(err){
                 return next(err);
             }
-            console.log(results);
             if (results.brand == null) {
                 const err = new Error("Brand not found");
                 err.status = 404;
@@ -112,7 +111,8 @@ exports.brand_detail = (req,res) =>{
                 title: "Brand details",
                 brand: results.brand,
                 brand_product: results.brand_product,
-            })
+            },
+            )
         }
     )
 }

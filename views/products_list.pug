@@ -4,10 +4,10 @@ block content
     h1= title 
 
     ul 
-        each brand in brand_list 
+        each product in list_product 
             li 
-                a(href=brand.url) #{brand.name}
+                a(href=product.url) #{product.name}
 
         else 
             li There is no brand yet, add it by 
-            a(href="/brands/add") clicking here
+            a(href="/product/add") clicking here

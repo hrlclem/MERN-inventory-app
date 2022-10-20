@@ -5,8 +5,19 @@ const validator = require("express-validator");
 const Category = require("../models/category");
 
 exports.category_list = (req,res) =>{
-    res.render("categories_list", { title: "All brands:", brand_list:[{name: "yes"}, {name: "yes"}, {name: "yes"}]});
-}
+    Category.find()
+        // filter find function
+        .sort([['name', 'ascending']])
+        // execute action
+        .exec((function(err, list_category){
+            if(err){
+                return next(err);
+            }
+            res.render("categories_list", {
+                title: "List of categories",
+                category_list: list_category,
+            })
+        }))}
 
 exports.category_add_get = (req,res) =>{
     res.render("categories_form", { title: "Create a new category" });
@@ -70,6 +81,34 @@ exports.category_update_get = (req,res) =>{
     res.send("NOT IMPLMENTED: category update get")
 }
 
+//  NOT WORKING
 exports.category_detail = (req,res) =>{
-    res.send("NOT IMPLMENTED: category detail")
+    async.parallel(
+        {
+            category(callback){
+                // Search category with specific ID
+                Category.findById(req.params.id).exec(callback)
+            },
+            brand_product(callback){
+                // Search products with specific brand ID
+                Product.find({ brand: req.params.id }).populate('name').exec(callback)
+            }
+        },
+        (err, results) => {
+            if(err){
+                return next(err);
+            }
+            if (results.brand == null) {
+                const err = new Error("Brand not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("brands_detail", {
+                title: "Brand details",
+                brand: results.brand,
+                brand_product: results.brand_product,
+            },
+            )
+        }
+    )
 }
