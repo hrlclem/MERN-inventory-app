@@ -91,11 +91,13 @@ exports.brand_detail = (req,res) =>{
         {
             brand(callback){
                 // Search brand with specific ID
-                Brand.findById(req.params.id).exec(callback)
+                Brand.findById(req.params.id)
+                    .exec(callback);
             },
             brand_product(callback){
                 // Search products with specific brand ID
-                Product.find({ brand: req.params.id }).populate('name').exec(callback)
+                Product.find({ brand: req.params.id })
+                    .exec(callback);
             }
         },
         (err, results) => {

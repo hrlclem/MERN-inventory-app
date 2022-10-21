@@ -3,6 +3,10 @@ const validator = require("express-validator");
 // const body = validator.body;
 // const validationResult = validator.validationResult;
 const Category = require("../models/category");
+const Product = require("../models/product");
+
+const async = require("async");
+
 
 exports.category_list = (req,res) =>{
     Category.find()
@@ -81,32 +85,33 @@ exports.category_update_get = (req,res) =>{
     res.send("NOT IMPLMENTED: category update get")
 }
 
-//  NOT WORKING
 exports.category_detail = (req,res) =>{
     async.parallel(
         {
             category(callback){
                 // Search category with specific ID
-                Category.findById(req.params.id).exec(callback)
+                Category.findById(req.params.id)
+                    .exec(callback);
             },
-            brand_product(callback){
+            category_products(callback){
                 // Search products with specific brand ID
-                Product.find({ brand: req.params.id }).populate('name').exec(callback)
+                Product.find({ categories: req.params.id })
+                    .exec(callback);
             }
         },
         (err, results) => {
             if(err){
                 return next(err);
             }
-            if (results.brand == null) {
-                const err = new Error("Brand not found");
+            if (results.category == null) {
+                const err = new Error("Category not found");
                 err.status = 404;
                 return next(err);
             }
-            res.render("brands_detail", {
-                title: "Brand details",
-                brand: results.brand,
-                brand_product: results.brand_product,
+            res.render("categories_detail", {
+                title: "Categories details",
+                categories: results.category,
+                products_category: results.category_products,
             },
             )
         }
