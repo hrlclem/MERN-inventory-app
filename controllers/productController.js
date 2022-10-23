@@ -47,8 +47,8 @@ exports.product_add_get = (req,res) =>{
             }
         },
         (err, results) => {
-            if(err){
-                return next(err);
+            if (err) {
+              return next(err);
             }
             res.render("products_form", { 
                 title: "Create a new product",
@@ -59,21 +59,33 @@ exports.product_add_get = (req,res) =>{
     )
 }
 
+
+// TO FIX: ERROR ON THE POST CATEGORY FIELD --> NOT BRINGING ANY INPUT
 exports.product_add_post = [
+    // Convert the category to an array.
+    (req, res, next) => {
+        if (!Array.isArray(req.body.category)) {
+        req.body.category =
+            typeof req.body.category === "undefined" ? [] : [req.body.category];
+        }
+        next();
+    },
+
     body("name", "Name must not be empty.")
         .trim()
         .isLength({ min: 3 })
         .escape(),
     body("price", "Price must not be empty.")
         .trim()
-        .escape()
-        .isInt(),
+        .isLength({ min: 1 })
+        .isInt()
+        .escape(),
     body("stock", "Stock must not be empty.")
         .trim()
-        .escape()
-        .isInt(),
-    body("categories", "Categories must not be empty.")
-        .trim()
+        .isLength({ min: 1 })
+        .isInt()
+        .escape(),
+    body("categories.*", "Categories must not be empty.")
         .escape(),
     body("brand", "Brand must not be empty.")
         .trim()
@@ -81,26 +93,52 @@ exports.product_add_post = [
 
     (req, res, next) => {
         const errors= validationResult(req);
+        console.log(req.body.category)
         const product = new Product({
             name: req.body.name,
             price: req.body.price,
             stock: req.body.price,
-            categories: req.body.categories,
+            categories: req.body.category,
             brand: req.body.brand,
         });
 
+        // If Errors
         if(!errors.isEmpty()){
-            res.render("products_form", {
-                title: "Create a new product ERROR",
-                name: req.body.name, 
-                errors: errors.array(),
-                product,
-            });
+            async.parallel(
+                {
+                    // Get all Brands and Categories
+                    brands(callback){
+                        Brand.find(callback);
+                    },
+                    categories(callback){
+                        Category.find(callback);
+                    }
+                },
+                (err, results) => {
+                    if (err) {
+                      return next(err);
+                    }
+                    for (const category of results.categories) {
+                        if (product.category.includes(category._id)) {
+                            category.checked = "true";
+                        }
+                    }
+                    res.render("products_form", {
+                        title: "Create a new product ERROR",
+                        name: req.body.name,
+                        brands: results.brands,
+                        category: results.categories,
+                        errors: errors.array(),
+                        product,
+                    });
+                }
+            );
             return;
         }
         product.save((err) => {
+            console.log("PRODUCTCAT"+product.categories)
             if (err) {
-              return next(err);
+            return next(err);
             }
             res.redirect(product.url);
         });
@@ -171,7 +209,6 @@ exports.product_detail = (req,res) =>{
                 err.status = 404;
                 return next(err);
             }
-            console.log(results)
             res.render("products_detail", {
                 title: "Product details",
                 product: results.product,

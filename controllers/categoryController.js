@@ -26,6 +26,7 @@ exports.category_add_get = (req,res) =>{
 }
 
 exports.category_add_post = [
+
         body("name", "Category name is required")
             .trim()
             .isLength({min: 3})

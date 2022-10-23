@@ -29,7 +29,7 @@ block content
         required = 'true'
         value=(undefined=== product ? '' : product.stock))
 
-      label(for='categories') Select categories:
+      label(for='category') Select categories:
         for category in categories
           div(style='display: inline; padding-right:10px;')
             input.checkbox-input(type='checkbox', name='category', id=category._id, value=category._id)
