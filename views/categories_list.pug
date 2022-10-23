@@ -2,6 +2,8 @@ extends layout
 
 block content 
     h1= title 
+    p
+      a(href='/inventory/categories/add') Add new category
 
     ul 
         each category in category_list 

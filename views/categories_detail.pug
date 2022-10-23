@@ -2,7 +2,9 @@ extends layout
 
 block content
 
-  h1 Categories: #{categories.name}
+  h1 Category: #{categories.name}
+  p
+    a(href=categories.url+'/delete') Delete this category
 
   div(style='margin-left:20px;margin-top:20px')
 
@@ -17,4 +19,4 @@ block content
           div=product.categories 
 
       else
-        p This brand has no products yet.
+        p This category has no products yet.

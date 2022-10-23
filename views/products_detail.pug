@@ -2,21 +2,16 @@ extends layout
 
 block content
 
-  h1 Products: #{brand.name}
+  h1 #{product.name}
+  p
+    a(href=product.url+'/delete') Delete product
 
   div(style='margin-left:20px;margin-top:20px')
 
-    h4 Products
-
     dl
-      each product in brand_product
-        dt
-          a(href=product.url) #{product.name}
-          div=product.price 
-          div=product.stock 
-          div=product.categories 
+      div=product.name
+      div=product.price 
+      div=product.stock 
 
-        dd #{product.summary}
-
-      else
-        p This brand has no products yet.
+      each category in product_categories
+        div=category.name

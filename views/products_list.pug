@@ -4,12 +4,10 @@ block content
     h1= title 
 
     h3 There is #{item_count} products.
+    p
+      a(href='/inventory/products/add') Add new product
 
     ul 
         each product in list_product 
             li 
                 a(href=product.url) #{product.name}
-
-        else 
-            li There is no brand yet, add it by 
-            a(href="/product/add") clicking here

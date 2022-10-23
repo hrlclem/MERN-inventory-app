@@ -1,7 +1,5 @@
 const { body, validationResult } = require("express-validator");
 const validator = require("express-validator");
-// const body = validator.body;
-// const validationResult = validator.validationResult;
 const Category = require("../models/category");
 const Product = require("../models/product");
 
@@ -27,21 +25,23 @@ exports.category_add_get = (req,res) =>{
     res.render("categories_form", { title: "Create a new category" });
 }
 
-exports.category_add_post = (req,res) =>{
-    [
-        body("name", "Category name is required").trim().escape(),
-        async (req, res, next) => {
+exports.category_add_post = [
+        body("name", "Category name is required")
+            .trim()
+            .isLength({min: 3})
+            .escape(),
+        (req, res, next) => {
             const errors = validationResult(req);
-            const category = new category({ name : req.body.name });
-
+            const category = new Category({ name : req.body.name });
             // in case of error
             if (!errors.isEmpty()) {                                   
                 res.render("categories_form", {
-                    title: "Create a new category",
+                    title: "Create a new category ERROR",
                     category, 
                     errors: errors.array()
                 });
                 return;
+
             } else {
                 // search for matching category
                 Category.findOne({ name : req.body.name }).exec((err, found_category) => {
@@ -66,16 +66,68 @@ exports.category_add_post = (req,res) =>{
             }
         }
     
-    ]
-}
+]
 
 exports.category_delete_post = (req,res) =>{
-    res.send("NOT IMPLMENTED: category delete post")
-}
+    async.parallel(
+        {
+          category(callback) {
+            Category.findById(req.params.id)
+                .exec(callback);
+          },
+          category_products(callback) {
+            Product.find({ categories: req.params.id })
+                .exec(callback);
+          },
+        },
+        function (err, results) {
+          if (err) {
+            return next(err);
+          }
+          if (results.category == null) {
+            res.redirect("/inventory/categories");
+          }
+          res.render("categories_delete", {
+            title: "Delete Category",
+            category: results.category,
+            category_products: results.category_products,
+          });
+        }
+      );}
 
 exports.category_delete_get = (req,res) =>{
-    res.send("NOT IMPLMENTED: category delete get")
-}
+    async.parallel(
+        {
+            category(callback) {
+                Category.findById(req.params.id)
+                    .exec(callback);
+                },
+            category_products(callback) {
+            Product.find({ categories: req.params.id })
+                .exec(callback);
+            },
+        },
+        (err, results) => {
+          if (err) {
+            return next(err);
+          }
+          if (results.category.products.length < 0) {
+            res.render("categories_delete", {
+              title: "Delete Category",
+              category: results.category,
+              category_products: results.category_products,
+            });
+            return;
+          } else {
+            Category.findByIdAndRemove(req.params.id, function deleteCategory(err) {
+              if (err) {
+                return next(err);
+              }
+              res.redirect("/inventory/categories");
+            });
+          }
+        }
+      );}
 
 exports.category_update_post = (req,res) =>{
     res.send("NOT IMPLMENTED: category update post")
@@ -108,6 +160,7 @@ exports.category_detail = (req,res) =>{
                 err.status = 404;
                 return next(err);
             }
+            console.log(results)
             res.render("categories_detail", {
                 title: "Categories details",
                 categories: results.category,

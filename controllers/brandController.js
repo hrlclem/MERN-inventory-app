@@ -1,8 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const validator = require("express-validator");
 const async = require("async");
-const { product_add_get } = require("./productController");
-
 const Brand = require("../models/brand");
 const Product = require("../models/product");
 
@@ -29,11 +27,13 @@ exports.brand_add_get = (req,res) =>{
 
 exports.brand_add_post = [
         // data field input
-        body("name", "Brand name is required").trim().escape(),  
+        body("name", "Brand name is required")
+            .trim()
+            .isLength({min: 3})
+            .escape(),
         (req, res, next) => {
             const errors = validationResult(req);
             const brand = new Brand({ name : req.body.name });
-
             // in case of error
             if (!errors.isEmpty()) {                                   
                 res.render("brands_form", {
@@ -71,11 +71,69 @@ exports.brand_add_post = [
 
 
 exports.brand_delete_post = (req,res) =>{
-    res.send("NOT IMPLEMENTED: Brands delete post")
+    async.parallel(
+        {
+          brand(callback) {
+            Brand.findById(req.params.id)
+                .exec(callback);
+          },
+          brand_products(callback) {
+            Product.find({ brand: req.params.id })
+                .exec(callback);
+          },
+        },
+        function (err, results) {
+          if (err) {
+            return next(err);
+          }
+          if (results.brand == null) {
+            res.redirect("/inventory/brands");
+          }
+          res.render("brands_delete", {
+            title: "Delete Brand",
+            brand: results.brand,
+            brand_products: results.brand_products,
+          });
+        }
+      );
 }
 
 exports.brand_delete_get = (req,res) =>{
-    res.send("NOT IMPLEMENTED: Brands delete get")
+    async.parallel(
+        {
+          brand(callback) {
+            Brand.findById(req.params.id)
+                .exec(callback);
+          },
+          brand_products(callback) {
+            Product.find({ brand: req.params.id })
+                .exec(callback);
+          },
+        },
+        (err, results) => {
+          if (err) {
+            return next(err);
+          }
+          if (results.brand_products.length > 0) {
+            console.log(results)
+            res.render("brands_delete", {
+              title: "Delete Brand",
+              brand: results.brand,
+              brand_products: results.brand_products,
+            });
+            return;
+          } else {
+            console.log(results)
+
+            Brand.findByIdAndRemove(req.params.id, function deleteBrand(err) {
+              if (err) {
+                return next(err);
+              }
+              res.redirect("/inventory/brands");
+            });
+          }
+        }
+      );
 }
 
 exports.brand_update_post = (req,res) =>{

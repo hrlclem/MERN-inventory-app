@@ -59,28 +59,28 @@ exports.product_add_get = (req,res) =>{
     )
 }
 
-exports.product_add_post = (req,res, next) => [
-    body("name")
+exports.product_add_post = [
+    body("name", "Name must not be empty.")
         .trim()
         .isLength({ min: 3 })
         .escape(),
-    body("price")
+    body("price", "Price must not be empty.")
         .trim()
         .escape()
         .isInt(),
-    body("stock")
+    body("stock", "Stock must not be empty.")
         .trim()
         .escape()
         .isInt(),
-    body("categories")
+    body("categories", "Categories must not be empty.")
         .trim()
         .escape(),
-    body("brand")
+    body("brand", "Brand must not be empty.")
         .trim()
         .escape(),
-    (req, res, results) => {
-        const errors= validationResult(req);
 
+    (req, res, next) => {
+        const errors= validationResult(req);
         const product = new Product({
             name: req.body.name,
             price: req.body.price,
@@ -91,9 +91,10 @@ exports.product_add_post = (req,res, next) => [
 
         if(!errors.isEmpty()){
             res.render("products_form", {
-                title: "Create a new product",
+                title: "Create a new product ERROR",
                 name: req.body.name, 
                 errors: errors.array(),
+                product,
             });
             return;
         }
@@ -107,11 +108,30 @@ exports.product_add_post = (req,res, next) => [
 ]
 
 exports.product_delete_post = (req,res) =>{
-    res.send("NOT IMPLMENTED: product delete post")
+    Product.findByIdAndRemove(req.params.id, function deleteProduct(err) {
+        if (err) {
+          return next(err);
+        }
+        res.redirect("/inventory/products");
+      });
 }
 
 exports.product_delete_get = (req,res) =>{
-    res.send("NOT IMPLMENTED: product delete get")
+        Product.findById(req.params.id)
+            .populate('name')
+            .exec(function (err, product) {
+                if (err) {
+                    return next(err);
+                }
+                if (product == null) {
+                    res.redirect("/inventory/products");
+                }
+                res.render("products_delete", {
+                    title: "Delete Product",
+                    product: product,
+                });
+            }
+      );
 }
 
 exports.product_update_post = (req,res) =>{
@@ -124,41 +144,42 @@ exports.product_update_get = (req,res) =>{
 
 // PROBABLY NO NEED FOR THIS DETAIL PAGE
 exports.product_detail = (req,res) =>{
-    // async.parallel(
-    //     {
-    //         product(callback){
-    //             // Search product with specific ID
-    //             Product.findById(req.params.id)
-    //                 .exec(callback);
-    //         },
-    //         product_brand(callback){
-    //             // Search brand with specific product ID
-    //             Brand.find({ products: req.params.id})
-    //                 .exec(callback);
-    //         },
-    //         product_category(callback){
-    //             // Search categories with specific product ID
-    //             Category.find({ products: req.params.id})
-    //                 .exec(callback);
-    //         }
-    //     },
-    //     (err, results) => {
-    //         if (err) {
-    //             return next(err);
-    //         }
-    //         if (results.product == null) {
-    //             const err = new Error("Products not found");
-    //             err.status = 404;
-    //             return next(err);
-    //         }
-    //         res.render("products_detail", {
-    //             title: "Product details",
-    //             product: results.product,
-    //             product_brands: results.product_brand,
-    //             product_categories: results.product_category,
-    //         },
-    //         )
-    //     }
-    // )
+    async.parallel(
+        {
+            product(callback){
+                // Search product with specific ID
+                Product.findById(req.params.id)
+                    .exec(callback);
+            },
+            product_brand(callback){
+                // Search brand with specific product ID
+                Brand.find({ products: req.params.id})
+                    .exec(callback);
+            },
+            product_category(callback){
+                // Search categories with specific product ID
+                Category.find({ products: req.params.id})
+                    .exec(callback);
+            }
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.product == null) {
+                const err = new Error("Products not found");
+                err.status = 404;
+                return next(err);
+            }
+            console.log(results)
+            res.render("products_detail", {
+                title: "Product details",
+                product: results.product,
+                product_brands: results.product_brand,
+                product_categories: results.product_category,
+            },
+            )
+        }
+    )
 }
 
