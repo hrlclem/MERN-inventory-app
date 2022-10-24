@@ -168,14 +168,6 @@ exports.product_delete_get = (req,res) =>{
       );
 }
 
-exports.product_update_post = (req,res) =>{
-    res.send("NOT IMPLMENTED: product update post")
-}
-
-exports.product_update_get = (req,res) =>{
-    res.send("NOT IMPLMENTED: product update get")
-}
-
 exports.product_detail = (req,res) =>{
     async.parallel(
         {

@@ -136,14 +136,6 @@ exports.brand_delete_get = (req,res) =>{
       );
 }
 
-exports.brand_update_post = (req,res) =>{
-    res.send("NOT IMPLEMENTED: Brands update post")
-}
-
-exports.brand_update_get = (req,res) =>{
-    res.send("NOT IMPLEMENTED: Brands update get")
-}
-
 exports.brand_detail = (req,res) =>{
     async.parallel(
         {

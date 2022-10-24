@@ -15,8 +15,6 @@ router.get("/products/add", product_controller.product_add_get);
 router.post("/products/add", product_controller.product_add_post);
 router.get("/products/:id/delete", product_controller.product_delete_get);
 router.post("/products/:id/delete", product_controller.product_delete_post);
-router.get("/products/:id/update", product_controller.product_update_get);
-router.post("/products/:id/update", product_controller.product_update_post);
 router.get("/products/:id", product_controller.product_detail);
 
 /// CATEGORY ROUTES ///
@@ -25,8 +23,6 @@ router.get("/categories/add", category_controller.category_add_get);
 router.post("/categories/add", category_controller.category_add_post);
 router.get("/categories/:id/delete", category_controller.category_delete_get);
 router.post("/categories/:id/delete", category_controller.category_delete_post);
-router.get("/categories/:id/update", category_controller.category_update_get);
-router.post("/categories/:id/update", category_controller.category_update_post);
 router.get("/categories/:id", category_controller.category_detail);
 
 /// BRAND ROUTES ///
@@ -35,8 +31,6 @@ router.get("/brands/add", brand_controller.brand_add_get);
 router.post("/brands/add", brand_controller.brand_add_post);
 router.get("/brands/:id/delete", brand_controller.brand_delete_get);
 router.post("/brands/:id/delete", brand_controller.brand_delete_post);
-router.get("/brands/:id/update", brand_controller.brand_update_get);
-router.post("/brands/:id/update", brand_controller.brand_update_post);
 router.get("/brands/:id", brand_controller.brand_detail);
 
 module.exports = router;

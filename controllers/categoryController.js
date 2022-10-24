@@ -130,14 +130,6 @@ exports.category_delete_get = (req,res) =>{
         }
       );}
 
-exports.category_update_post = (req,res) =>{
-    res.send("NOT IMPLMENTED: category update post")
-}
-
-exports.category_update_get = (req,res) =>{
-    res.send("NOT IMPLMENTED: category update get")
-}
-
 exports.category_detail = (req,res) =>{
     async.parallel(
         {
