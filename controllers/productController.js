@@ -59,8 +59,6 @@ exports.product_add_get = (req,res) =>{
     )
 }
 
-
-// TO FIX: ERROR ON THE POST CATEGORY FIELD --> NOT BRINGING ANY INPUT
 exports.product_add_post = [
     // Convert the category to an array.
     (req, res, next) => {
@@ -93,12 +91,11 @@ exports.product_add_post = [
 
     (req, res, next) => {
         const errors= validationResult(req);
-        console.log(req.body.category)
         const product = new Product({
             name: req.body.name,
             price: req.body.price,
             stock: req.body.price,
-            categories: req.body.category,
+            categories: [req.body.category],
             brand: req.body.brand,
         });
 
@@ -136,7 +133,6 @@ exports.product_add_post = [
             return;
         }
         product.save((err) => {
-            console.log("PRODUCTCAT"+product.categories)
             if (err) {
             return next(err);
             }
@@ -180,7 +176,6 @@ exports.product_update_get = (req,res) =>{
     res.send("NOT IMPLMENTED: product update get")
 }
 
-// PROBABLY NO NEED FOR THIS DETAIL PAGE
 exports.product_detail = (req,res) =>{
     async.parallel(
         {
@@ -191,12 +186,12 @@ exports.product_detail = (req,res) =>{
             },
             product_brand(callback){
                 // Search brand with specific product ID
-                Brand.find({ products: req.params.id})
+                Brand.find({ product: req.params.id})
                     .exec(callback);
             },
             product_category(callback){
                 // Search categories with specific product ID
-                Category.find({ products: req.params.id})
+                Category.find({ product: req.params.id})
                     .exec(callback);
             }
         },
@@ -212,7 +207,7 @@ exports.product_detail = (req,res) =>{
             res.render("products_detail", {
                 title: "Product details",
                 product: results.product,
-                product_brands: results.product_brand,
+                product_brand: results.product_brand,
                 product_categories: results.product_category,
             },
             )

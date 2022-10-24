@@ -12,11 +12,11 @@ block content
       div=product.name
       div=product.price 
       div=product.stock 
-        div category
-      div=product.category         
-        div brand
-      div=product.brand 
+      div CATEGORY
+        each category in product_categories
+          div=category.name      
+      div BRAND
+        each brand in product_brand
+          div=brand.name 
 
 
-      each category in product_categories
-        div=category.name

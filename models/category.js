@@ -8,10 +8,6 @@ const CategorySchema = new Schema({
     min: [3, "Category length is too small"],
     required: [true, "please add a category"]
     },
-  products: [{ 
-    type: Schema.Types.ObjectId, 
-    ref:"products"
-    }],
   // imageURL: { 
   //   type: String, 
   //   required: true 

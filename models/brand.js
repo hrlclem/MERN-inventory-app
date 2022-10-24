@@ -8,10 +8,6 @@ const BrandSchema = new Schema({
     min: [3, "Brand length is too small"],
     required: [true, "please add a brand"]
     },
-  products: [{ 
-    type: Schema.Types.ObjectId, 
-    ref:"products"
-    }],
   // imageURL: { 
   //   type: String, 
   //   },
