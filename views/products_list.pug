@@ -1,11 +1,12 @@
 extends layout
 
 block content 
-    h1= title 
 
-    h3 There is #{item_count} products.
-    p
-      a(href='/inventory/products/add') Add new product
+    div.intro
+      h1= title
+      a.intro-btn(href='/inventory/products/add') Add new product
+
+    h4 There is #{item_count} products.
 
     ul 
         each product in list_product 

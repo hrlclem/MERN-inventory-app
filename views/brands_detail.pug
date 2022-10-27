@@ -2,9 +2,9 @@ extends layout
 
 block content
 
-  h1 Brands: #{brand.name}
-  p
-    a(href=brand.url+'/delete') Delete Brand
+  div.intro
+    h1 Brand: #{brand.name}
+    a.intro-btn(href=brand.url+'/delete') Delete Brand
 
   div(style='margin-left:20px;margin-top:20px')
 

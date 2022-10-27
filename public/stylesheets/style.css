@@ -44,5 +44,24 @@ a {
 .content{
   margin-left: 120px;
   margin-right: 120px;
-
 }
+
+
+.intro{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+  .intro-btn{
+    padding:10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 8px;
+    background-color: #0D71FF;
+    color: white;
+  }
+  .intro-btn:hover{
+    text-decoration: none;
+    color: white;
+    background-color: #0861dd;
+  }

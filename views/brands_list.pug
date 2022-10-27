@@ -1,9 +1,10 @@
 extends layout
 
 block content 
-    h1= title 
-    p
-      a(href='/inventory/brands/add') Add new brand
+
+    div.intro
+        h1= title
+        a.intro-btn(href='/inventory/brands/add') Add new brand
 
     ul 
         each brand in brand_list 

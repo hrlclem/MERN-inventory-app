@@ -2,9 +2,9 @@ extends layout
 
 block content
 
-  h1 Category: #{categories.name}
-  p
-    a(href=categories.url+'/delete') Delete this category
+  div.intro
+    h1 Category: #{categories.name}
+    a.intro-btn(href=categories.url+'/delete') Delete this category
 
   div(style='margin-left:20px;margin-top:20px')
 

@@ -1,9 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  a(href='/inventory/products') Check all products
+  div.intro
+    h1= title
+    a.intro-btn(href='/inventory/products') Check all products
 
   div.countDiv 
     div.prodDiv
