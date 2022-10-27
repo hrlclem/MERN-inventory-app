@@ -10,23 +10,31 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     header
-      div.px-3.py-2.bg-dark
+      div.px-3.py-2.bg-dark.header
         div.container
-          div.d-flex.flex-wrap.align-items-center.justify-content-center.justify-content-lg-start
-            a.d-flex.align-items-center.my-lg-0.me-lg-auto.text-white.text-decoration-none(href='/') Home
-            ul.nav.col-lg-auto.justify-content-center.my-md-0.text-small
-              li.nav-link.text-white
-                a(href='/') Home
-                img.bi.d-block(path='/public/images/home.svg' width='30' height='30')
-              li.nav-link.text-white
-                a(href='/inventory/products/') Products
-                img.bi.d-block(path='/public/images/products.svg' width='30' height='30')
-              li.nav-link.text-white
-                a(href='/inventory/categories/') Categories
-                img.bi.d-block(path='../public/images/categories.svg' width='30' height='30')
-              li.nav-link.text-white
-                a(href='/inventory/brands/') Brands
-                img.bi.d-block(path='../public/images/brands.svg' width='30' height='30')
-          
-    block content
+          div.d-flex.flex-wrap.logo-header-div
+            div.header-left
+              img.bi.logo.logo-header(src='/images/stock-logo.webp' height='60')
+              a.d-flex.align-items-center.my-lg-0.me-lg-auto.text-white.text-decoration-none.title-header(href='/') INV.APP
+            
+            div.header-right
+              ul.nav.col-lg-auto.justify-content-center.my-md-0.text-small.nav-right
+                li.nav-link.text-white 
+                  a(href='/')
+                    img.bi.d-block(src='/images/home.svg' width='20' height='20')
+                    span.nav-text Home
+                li.nav-link.text-white
+                  a(href='/inventory/products/')
+                    img.bi.d-block(src='/images/products.svg' width='20' height='20')
+                    span.nav-text Products
+                li.nav-link.text-white
+                  a(href='/inventory/categories/')
+                    img.bi.d-block(src='/images/categories.svg' width='20' height='20')
+                    span.nav-text Categories
+                li.nav-link.text-white
+                  a(href='/inventory/brands/')
+                    img.bi.d-block(src='/images/brands.svg' width='20' height='20')
+                    span.nav-text Brands
+    div.content
+      block content
 
